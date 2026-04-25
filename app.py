@@ -233,7 +233,7 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown('<p class="section-tag">Query Type</p>', unsafe_allow_html=True)
-    query_type = st.selectbox("", [
+    query_type = st.selectbox("Query Type", [
         "Drug Interaction Lookup",
         "Clinical Symptom Assessment",
         "Contraindication Check",
