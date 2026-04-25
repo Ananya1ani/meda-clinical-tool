@@ -315,22 +315,29 @@ examples = {
 
 st.markdown('<p style="font-size:0.85rem; color:#7A8BA0; margin-bottom:8px;">Try an example query or type your own:</p>', unsafe_allow_html=True)
 
+if "selected_example" not in st.session_state:
+    st.session_state.selected_example = ""
+
 ex_cols = st.columns(2)
-selected_example = None
 current_examples = examples.get(query_type, examples["Drug Interaction Lookup"])
 for i, ex in enumerate(current_examples[:4]):
     col = ex_cols[i % 2]
     with col:
         if st.button(f'"{ex[:55]}..."' if len(ex) > 55 else f'"{ex}"', key=f"ex_{i}"):
-            selected_example = ex
+            st.session_state.selected_example = ex
+            st.rerun()
 
 query_input = st.text_area(
     "Enter your clinical query:",
-    value=selected_example if selected_example else "",
+    value=st.session_state.selected_example,
     height=100,
     placeholder="e.g. What are the drug interactions between metformin and contrast dye?",
     label_visibility="collapsed"
 )
+
+if query_input != st.session_state.selected_example:
+    st.session_state.selected_example = query_input
+
 
 run_col, clear_col = st.columns([1, 5])
 with run_col:
